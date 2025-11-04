@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Classroom Timer</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 50px; }
+    #timer { font-size: 48px; margin: 20px; }
+    input { width: 60px; font-size: 24px; }
+  </style>
+</head>
+<body>
+  <h1>Classroom Timer</h1>
+  <input type="number" id="minutes" placeholder="Min" />
+  <button onclick="startTimer()">Start</button>
+  <div id="timer">00:00</div>
+  <audio id="alarm" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
+
+  <script>
+    let countdown;
+    function startTimer() {
+      clearInterval(countdown);
+      let minutes = parseInt(document.getElementById("minutes").value);
+      let time = minutes * 60;
+      countdown = setInterval(() => {
+        let min = Math.floor(time / 60);
+        let sec = time % 60;
+        document.getElementById("timer").textContent = `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        if (time <= 0) {
+          clearInterval(countdown);
+          document.getElementById("alarm").play();
+        }
+        time--;
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
